@@ -1,6 +1,6 @@
 import sys
 from Record import Record
-from utils import soupify, checkIfVinyl
+from utils import soupify, checkIfVinyl, getDescription
 
 my_url = 'https://www.sensorialdiscos.com.br/search_store?q='
 main_url = 'https://www.sensorialdiscos.com.br'
@@ -24,8 +24,12 @@ for container in containers:
     if checkIfVinyl(disc_soup):
         name = disc_soup.find("div", {"id": "product_title"}).text
         parsed_name = name.split(" - ", 1)
+        artist, album_title = parsed_name
         price = disc_soup.find("span", {"class": "price"}).text
         cover = main_url + disc_soup.find("img", {"alt": name})["src"]
+        description = getDescription(artist, album_title)
+        
+        print(artist, album_title, price, cover, description)
 
-        new_record = Record(parsed_name[0], parsed_name[1], price, cover)
-        records.append(new_record)
+        #new_record = Record(artist, album_title, price, cover, description)
+        #records.append(new_record)

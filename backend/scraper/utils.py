@@ -1,5 +1,6 @@
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
+import wikipedia
 
 def soupify(my_url):
     uClient = uReq(my_url)
@@ -11,3 +12,8 @@ def soupify(my_url):
 def checkIfVinyl(disc_soup):
     text = disc_soup.find("div", {"class": "product_description"}).text
     return "Formato: Vinil - LP" in text
+
+def getDescription(artist, album_title):
+    description = wikipedia.summary(album_title + ' ' + artist)
+    description = description if artist in description else "Description not found"
+    return description
