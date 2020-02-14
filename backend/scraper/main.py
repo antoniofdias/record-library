@@ -1,7 +1,7 @@
 import sys
 from Record import Record
 from random import randint
-from utils import soupify, checkIfVinyl, getDescription
+from utils import soupify, checkIfVinyl, getDescription, parsePrice
 from database import recordQuery, createRecord
 
 my_url = 'https://www.sensorialdiscos.com.br/search_store?q='
@@ -26,12 +26,13 @@ for container in containers:
         parsed_name = name.split(" - ", 1)
         artist, album_title = parsed_name
         price = disc_soup.find("span", {"class": "price"}).text
+        price = parsePrice(price)
         cover = main_url + disc_soup.find("img", {"alt": name})["src"]
 
         if recordQuery(artist, album_title) is None:
             description = getDescription(artist, album_title)
             quantity = randint(1, 11)
-            new_record = Record(artist, album_title, price.strip(), cover, description, quantity)
+            new_record = Record(artist, album_title, price, cover, description, quantity)
             createRecord(new_record)
             print("Added {} to the database".format(name))
         else:

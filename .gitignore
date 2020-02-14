@@ -1,3 +1,7 @@
+# Node modules
+
+**/node_modules/*
+
 # Python modules
 
 __pycache__/

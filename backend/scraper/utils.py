@@ -1,5 +1,6 @@
 from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
+from decimal import Decimal
 import wikipedia
 
 def soupify(my_url):
@@ -17,3 +18,7 @@ def getDescription(artist, album_title):
     description = wikipedia.summary(album_title + ' ' + artist)
     description = description if artist in description else "Description not found"
     return description
+
+def parsePrice(price_as_string):
+    price = price_as_string[4:].replace(',', '.')
+    return price
