@@ -6,4 +6,3 @@ class Record:
         self.cover = cover
         self.description = description
         self.quantity = quantity
-        self._v = 0
