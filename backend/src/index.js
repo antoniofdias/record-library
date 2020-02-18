@@ -1,19 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-
-const app = express();
-
-const database = require("./config/database");
-const routes = require("./routes");
+import { ApolloServer } from "apollo-server";
+import database from "./config/database";
+import { resolvers } from "./resolvers"
+import { typeDefs } from "./typeDefs"
+import routes from "./routes";
 
 database.connect();
 
-app.use(cors());
-app.use(express.json());
-app.use(routes);
+const server = new ApolloServer({ typeDefs, resolvers });
 
 const port = process.env.PORT || 3333;
 
-app.listen(port, () => {
-    console.log(`----- Listening on port ${port}.`);
+server.listen(port).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
 });

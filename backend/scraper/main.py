@@ -18,22 +18,22 @@ page_soup = soupify(my_url)
 containers = page_soup.findAll("li", {"class": "product"})
 
 for container in containers:
-    disc_url = main_url + container.a["href"]
-    disc_soup = soupify(disc_url)
+  disc_url = main_url + container.a["href"]
+  disc_soup = soupify(disc_url)
 
-    if checkIfVinyl(disc_soup):
-        name = disc_soup.find("div", {"id": "product_title"}).text
-        parsed_name = name.split(" - ", 1)
-        artist, album_title = parsed_name
-        price = disc_soup.find("span", {"class": "price"}).text
-        price = parsePrice(price)
-        cover = main_url + disc_soup.find("img", {"alt": name})["src"]
+  if checkIfVinyl(disc_soup):
+    name = disc_soup.find("div", {"id": "product_title"}).text
+    parsed_name = name.split(" - ", 1)
+    artist, album_title = parsed_name
+    price = disc_soup.find("span", {"class": "price"}).text
+    price = parsePrice(price)
+    cover = main_url + disc_soup.find("img", {"alt": name})["src"]
 
-        if recordQuery(artist, album_title) is None:
-            description = getDescription(artist, album_title)
-            quantity = randint(1, 11)
-            new_record = Record(artist, album_title, price, cover, description, quantity)
-            createRecord(new_record)
-            print("Added {} to the database".format(name))
-        else:
-            print("{} is already on the database".format(name))
+    if recordQuery(artist, album_title) is None:
+      description = getDescription(artist, album_title)
+      quantity = randint(1, 11)
+      new_record = Record(artist, album_title, price, cover, description, quantity)
+      createRecord(new_record)
+      print("Added {} to the database".format(name))
+    else:
+      print("{} is already on the database".format(name))
