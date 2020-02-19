@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import api from './services/api';
+
+import RecordItem from './components/RecordItem';
 
 function App() {
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    async function loadRecords() {
+      const response = await api.get('/records');
+
+      setRecords(response.data);
+    }
+
+    loadRecords();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="app">
+      <main>
+        <ul>
+          {records.map(record => (
+            <RecordItem key={record._id} record={record} />
+          ))}
+        </ul>
+      </main>
     </div>
   );
 }
