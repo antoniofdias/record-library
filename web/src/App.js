@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route } from 'react-router-dom';
 import api from './services/api';
 
-import RecordItem from './components/RecordItem';
+import './App.css';
+import './global.css';
+
+import Cart from './components/Cart';
+import Navbar from './components/NavBar';
+import Default from './components/Default';
+import Details from './components/Details';
+import RecordList from './components/RecordList';
 
 function App() {
   const [records, setRecords] = useState([]);
@@ -19,13 +25,15 @@ function App() {
   }, []);
 
   return (
-    <div id="app">
-      <main>
-        <ul>
-          {records.map(record => (
-            <RecordItem key={record._id} record={record} />
-          ))}
-        </ul>
+    <div>
+      <Navbar />
+      <main id="app">
+        <Switch>
+          <Route exact path="/" render={() => <RecordList records={records} />} />
+          <Route path="/details" component={Details} />
+          <Route path="/cart" component={Cart} />
+          <Route component={Default} />
+        </Switch>
       </main>
     </div>
   );

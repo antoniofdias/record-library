@@ -12,7 +12,11 @@ function RecordItem({ record }) {
           <span>R${record.price},00 </span>
         </div>
         </header>
-        <p>{record.description}</p>
+        <p>
+          <span>
+            <i className="fas fa-home"/>
+          </span>
+        </p>
     </li>
   );
 }
